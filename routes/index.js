@@ -10,7 +10,7 @@ var models = require('../models'),
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', {
-		title : (req.user && req.user.localName) || 'Nobody'
+		title : (req.user && req.user.localName) || 'CarTracker'
 	});
 });
 
