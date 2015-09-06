@@ -14,8 +14,20 @@ var sequelize = new Sequelize(process.env.SQL_DB,
 
 var models = {
 	'sequelize' : sequelize,
-	User : sequelize.import('./User')
+	User : sequelize.import('./User'),
+  Car :  sequelize.import('./Car'),
+  Expense : sequelize.import('./Expense'),
+  Event : sequelize.import('./Event')
 };
+
+models.Car.belongsTo(models.User, {foreignkey: 'userId'});
+models.User.hasMany(models.Car, {foreignkey: 'userId'});
+
+models.Event.belongsTo(models.Car);
+models.Car.hasMany(models.Event);
+
+models.Expense.belongsTo(models.Car);
+models.Car.hasMany(models.Expense);
 
 module.exports = models;
 
