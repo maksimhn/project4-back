@@ -33,19 +33,16 @@ module.exports = function (sequelize, DataTypes) {
     color: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    color: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
-  },
+  }, {
   timestamps: true,
   classMethods: {
       // dostuff
   },
   instanceMethods: {
     // fine... boring comment.
-  });
+  }
+});
 
   return Car;
 };

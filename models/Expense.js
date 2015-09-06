@@ -30,14 +30,15 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false
     }
-  },
+  }, {
   timestamps: true,
   classMethods: {
       // dostuff
   },
   instanceMethods: {
     // fine... boring comment.
-  });
+  }
+});
 
   return Expense;
 };

@@ -38,14 +38,15 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: true
     }
-  },
+  }, {
   timestamps: true,
   classMethods: {
       // dostuff
   },
   instanceMethods: {
     // fine... boring comment.
-  });
+  }
+});
 
   return Event;
 };

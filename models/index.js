@@ -23,11 +23,11 @@ var models = {
 models.Car.belongsTo(models.User, {foreignkey: 'userId'});
 models.User.hasMany(models.Car, {foreignkey: 'userId'});
 
-models.Event.belongsTo(models.Car);
-models.Car.hasMany(models.Event);
+models.Event.belongsTo(models.Car, {foreignkey: 'carId'});
+models.Car.hasMany(models.Event, {foreignkey: 'carId'});
 
-models.Expense.belongsTo(models.Car);
-models.Car.hasMany(models.Expense);
+models.Expense.belongsTo(models.Car, {foreignkey: 'carId'});
+models.Car.hasMany(models.Expense, {foreignkey: 'carId'});
 
 module.exports = models;
 
