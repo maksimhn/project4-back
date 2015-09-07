@@ -10,10 +10,18 @@ var createEvent = function(result, req, res){
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  if(!req.user){
+    var err = new Error("User not logged in.");
+    return next(err);
+  }
   res.send('respond with an event');
 })
 .post('/', function(req, res, next){
-    Event.create({
+  if(!req.user){
+    var err = new Error("User not logged in.");
+    return next(err);
+  }
+  Event.create({
     CarId: +req.body.carId,
     eventName: req.body.eventName,
     remindOnMileage: req.body.remindOnMileage,
