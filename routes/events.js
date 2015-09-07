@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models'),
-  User = models.User,
   Event = models.Event,
   Car = models.Car;
 
