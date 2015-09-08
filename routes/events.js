@@ -35,6 +35,43 @@ router.get('/', function(req, res, next) {
     }
     res.sendStatus(201);
   });
+})
+.put('/', function(req, res, next){
+  if(!req.user){
+    var err = new Error("User not logged in.");
+    return next(err);
+  }
+  Event.findOne({
+    where: {
+      id: req.body.eventId
+    }
+  }).then(function(event){
+    event.update({
+      eventName: req.body.eventName,
+      remindOnMileage: req.body.remindOnMileage,
+      remindEvery: req.body.remindEvery,
+      nextReminder: req.body.nextReminder,
+      reminderSent: req.body.reminderSent,
+      done: req.body.done
+    }).then(function(result){
+      res.send(200);
+    });
+  });
+})
+.delete('/', function(req, res, next){
+  if(!req.user){
+    var err = new Error("User not logged in.");
+    return next(err);
+  }
+  Event.findOne({
+    where: {
+      id: req.body.eventId
+    }
+  }).then(function(event){
+    event.destroy().then(function(result){
+      res.send(200);
+    });
+  });
 });
 
 module.exports = router;

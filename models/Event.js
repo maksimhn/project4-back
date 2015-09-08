@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     remindEvery: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     nextReminder: {
       type: DataTypes.STRING,
