@@ -7,13 +7,6 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
-    // carId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: 'Cars',
-    //   referencesKey: 'carId',
-    //   onDelete: 'cascade'
-    // },
     expenseName: {
       type: DataTypes.STRING,
       allowNull: false

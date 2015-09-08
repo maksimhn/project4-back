@@ -24,7 +24,8 @@ router
     make: req.body.make,
     model: req.body.model,
     year: req.body.year,
-    color: req.body.color
+    color: req.body.color,
+    mileage: req.body.mileage
   });
   res.send(200);
 })

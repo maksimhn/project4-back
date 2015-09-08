@@ -5,13 +5,17 @@ var async = require('async');
 var bcrypt = require('bcrypt');
 var models = require('../models'),
 	User = models.User;
+var dataCollector = require('../lib/dataCollector');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.render('index', {
-		title : (req.user && req.user.localName) || 'CarTracker'
-	});
+	dataCollector(req.user, res);
+	// console.log('dataCollector is ', dataCollector(req.user, res));
+	// res.json(dataCollector(req.user));
+	// res.render('index', {
+	// 	title : (req.user && req.user.localName) || 'CarTracker'
+	// });
 });
 
 /**AUTH ROUTES

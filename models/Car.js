@@ -7,13 +7,6 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
-    // userId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: 'Users',
-    //   referencesKey: 'userId',
-    //   onDelete: 'cascade'
-    // },
     customName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -33,6 +26,10 @@ module.exports = function (sequelize, DataTypes) {
     },
     color: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    mileage: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {
