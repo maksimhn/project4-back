@@ -21,13 +21,13 @@ var models = {
 };
 
 models.Car.belongsTo(models.User, {foreignkey: 'userId'});
-models.User.hasMany(models.Car, {foreignkey: 'userId'});
+models.User.hasMany(models.Car, {foreignkey: 'userId', onDelete: 'cascade', hooks: true});
 
 models.Event.belongsTo(models.Car, {foreignkey: 'carId'});
-models.Car.hasMany(models.Event, {foreignkey: 'carId'});
+models.Car.hasMany(models.Event, {foreignkey: 'carId', onDelete: 'cascade', hooks: true});
 
 models.Expense.belongsTo(models.Car, {foreignkey: 'carId'});
-models.Car.hasMany(models.Expense, {foreignkey: 'carId'});
+models.Car.hasMany(models.Expense, {foreignkey: 'carId', onDelete: 'cascade', hooks: true});
 
 module.exports = models;
 
