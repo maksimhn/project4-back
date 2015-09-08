@@ -24,12 +24,9 @@ router.get('/', function(req, res, next) {
     mileage: +req.body.mileage,
     amountSpent: +req.body.amountSpent,
     gas: req.body.gas
-  }).then(function(err, expense){
-    if (err) {
-      next(err);
-    }
-    res.sendStatus(201);
-  });
+  }).then(function(expense){
+    dataCollector(req.user, res);
+  }, next);
 })
 .put('/', function(req, res, next){
   if(!req.user){
@@ -47,8 +44,8 @@ router.get('/', function(req, res, next) {
       amountSpent: +req.body.amountSpent,
       gas: req.body.gas
     }).then(function(result){
-      res.send(200);
-    });
+      dataCollector(req.user, res);
+    }, next);
   });
 })
 .delete('/', function(req, res, next){
@@ -62,8 +59,8 @@ router.get('/', function(req, res, next) {
     }
   }).then(function(expense){
     expense.destroy().then(function(result){
-      res.send(200);
-    });
+      dataCollector(req.user, res);
+    }, next);
   });
 });
 
