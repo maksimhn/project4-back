@@ -27,8 +27,9 @@ router
     year: req.body.year,
     color: req.body.color,
     mileage: req.body.mileage
-  });
-  res.send(200);
+  }).then(function(car){
+    dataCollector(req.user, res);
+  }, next);
 })
 .put('/', function(req, res, next){
   if(!req.user){
@@ -47,8 +48,8 @@ router
       year: req.body.year,
       color: req.body.color
     }).then(function(result){
-      res.send(200);
-    });
+      dataCollector(req.user, res);
+    }, next);
   });
 })
 .delete('/', function(req, res, next){
@@ -56,15 +57,13 @@ router
     var err = new Error("User not logged in.");
     return next(err);
   }
-  Car.findOne({
+  Car.destroy({
     where: {
       id: req.body.carId
     }
   }).then(function(car){
-    car.destroy().then(function(result){
-      res.send(200);
-    });
-  });
+      dataCollector(req.user, res);
+    }, next);
 });
 
 module.exports = router;
