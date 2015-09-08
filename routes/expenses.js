@@ -29,6 +29,41 @@ router.get('/', function(req, res, next) {
     }
     res.sendStatus(201);
   });
+})
+.put('/', function(req, res, next){
+  if(!req.user){
+    var err = new Error("User not logged in.");
+    return next(err);
+  }
+  Expense.findOne({
+    where: {
+      id: req.body.expenseId
+    }
+  }).then(function(expense){
+    expense.update({
+      expenseName: req.body.expenseName,
+      mileage: +req.body.mileage,
+      amountSpent: +req.body.amountSpent,
+      gas: req.body.gas
+    }).then(function(result){
+      res.send(200);
+    });
+  });
+})
+.delete('/', function(req, res, next){
+  if(!req.user){
+    var err = new Error("User not logged in.");
+    return next(err);
+  }
+  Expense.findOne({
+    where: {
+      id: req.body.expenseId
+    }
+  }).then(function(expense){
+    expense.destroy().then(function(result){
+      res.send(200);
+    });
+  });
 });
 
 module.exports = router;
