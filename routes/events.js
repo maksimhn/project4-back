@@ -1,12 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var dataCollector = require('../lib/dataCollector');
 var models = require('../models'),
   Event = models.Event,
   Car = models.Car;
 
-var createEvent = function(result, req, res){
 
-};
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -14,7 +13,7 @@ router.get('/', function(req, res, next) {
     var err = new Error("User not logged in.");
     return next(err);
   }
-  res.send('respond with an event');
+  // res.send('respond with an event');
 })
 .post('/', function(req, res, next){
   if(!req.user){
@@ -29,13 +28,10 @@ router.get('/', function(req, res, next) {
     nextReminder: req.body.nextReminder,
     reminderSent: req.body.reminderSent,
     done: req.body.done
-  }).then(function(err, event){
-    if (err) {
-      next(err);
-    }
-    res.sendStatus(201);
-  });
-})
+  }).then(function(event){
+      dataCollector(req.user, res);
+     }, next)
+  })
 .put('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
@@ -53,9 +49,9 @@ router.get('/', function(req, res, next) {
       nextReminder: req.body.nextReminder,
       reminderSent: req.body.reminderSent,
       done: req.body.done
-    }).then(function(result){
-      res.send(200);
-    });
+    }).then(function(event){
+      dataCollector(req.user, res);
+    }, next);
   });
 })
 .delete('/', function(req, res, next){
@@ -63,15 +59,14 @@ router.get('/', function(req, res, next) {
     var err = new Error("User not logged in.");
     return next(err);
   }
-  Event.findOne({
+
+  Event.destroy({
     where: {
       id: req.body.eventId
     }
   }).then(function(event){
-    event.destroy().then(function(result){
-      res.send(200);
-    });
-  });
+    dataCollector(req.user, res);
+  }, next);
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var dataCollector = require('../lib/dataCollector');
 var models = require('../models'),
   Expense = models.Expense,
   Car = models.Car;
