@@ -27,10 +27,15 @@ router.route('/login').
 	get(function(req, res, next) {
 		res.sendStatus(405);
 	}).
-	post(passport.authenticate('local', {
-		successRedirect : '/',
-		failureRedirect : '/'
-	}));
+	post(function(req, res, next){
+		// we dont know or care about signature for now
+		passport.authenticate('local', function(err, user){
+			if (err) {
+				return next(err);
+			}
+			dataCollector(user, res);
+		})(req, res, next);
+	});
 
 router.route('/signup').
 	get(function(req, res, next) {
