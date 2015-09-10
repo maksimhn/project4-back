@@ -20,13 +20,13 @@ router
     return next(err);
   }
   Car.create({
-    UserId: req.user.id,
+    UserId: +req.user.id,
     customName: req.body.customName,
     make: req.body.make,
     model: req.body.model,
     year: req.body.year,
     color: req.body.color,
-    mileage: req.body.mileage
+    mileage: +req.body.mileage
   }).then(function(car){
     dataCollector(req.user, res);
   }, next);

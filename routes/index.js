@@ -11,30 +11,18 @@ var dataCollector = require('../lib/dataCollector');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	dataCollector(req.user, res);
-	// console.log('dataCollector is ', dataCollector(req.user, res));
-	// res.json(dataCollector(req.user));
-	// res.render('index', {
-	// 	title : (req.user && req.user.localName) || 'CarTracker'
-	// });
 });
 
 /**AUTH ROUTES
  *	a login route using `passport.authenticate`
  *	a register route **not using passport**
- *
  */
 router.route('/login').
 	get(function(req, res, next) {
 		res.sendStatus(405);
 	}).
-	post(function(req, res, next){
-		// we dont know or care about signature for now
-		passport.authenticate('local', function(err, user){
-			if (err) {
-				return next(err);
-			}
-			dataCollector(user, res);
-		})(req, res, next);
+	post(passport.authenticate('local'), function(req, res){
+		dataCollector(req.user, res);
 	});
 
 router.route('/signup').
