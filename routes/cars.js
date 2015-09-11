@@ -12,7 +12,7 @@ router
     var err = new Error("User not logged in.");
     return next(err);
   }
-  res.send('respond with a car');
+  dataCollector(req.user, res);
 })
 .post('/', function(req, res, next){
   if(!req.user){
