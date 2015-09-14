@@ -60,15 +60,14 @@ router.get('/:id', function(req, res, next) {
     }, next);
   });
 })
-.delete('/', function(req, res, next){
+.delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
     return next(err);
   }
-
   Event.destroy({
     where: {
-      id: req.body.eventId
+      id: req.params.id
     }
   }).then(function(event){
     dataCollector(req.user, res);

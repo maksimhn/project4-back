@@ -54,20 +54,18 @@ router.get('/:id', function(req, res, next) {
     }, next);
   });
 })
-.delete('/', function(req, res, next){
+.delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
     return next(err);
   }
-  Expense.findOne({
+  Expense.destroy({
     where: {
-      id: req.body.expenseId
+      id: req.params.id
     }
   }).then(function(expense){
-    expense.destroy().then(function(result){
       dataCollector(req.user, res);
-    }, next);
-  });
+  }, next);
 });
 
 module.exports = router;
