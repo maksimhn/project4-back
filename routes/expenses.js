@@ -6,12 +6,18 @@ var models = require('../models'),
   Car = models.Car;
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
     return next(err);
   }
-  res.send('respond with an expense');
+  Expense.findOne({
+    where: {
+      id: +req.params.id
+    }
+  }).then(function(expense){
+    res.json(expense);
+  });
 })
 .post('/', function(req, res, next){
   if(!req.user){

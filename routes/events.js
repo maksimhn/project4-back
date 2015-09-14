@@ -8,12 +8,18 @@ var models = require('../models'),
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
     return next(err);
   }
-  // res.send('respond with an event');
+  Event.findOne({
+    where: {
+      id: +req.params.id
+    }
+  }).then(function(event){
+    res.json(event);
+  });
 })
 .post('/', function(req, res, next){
   if(!req.user){

@@ -14,6 +14,19 @@ router
   }
   dataCollector(req.user, res);
 })
+.get('/:id', function(req, res, next){
+  if (!req.user){
+    var err = new Error("User not logged in");
+    return next(err);
+  }
+  Car.findOne({
+    where: {
+      id: +req.params.id
+    }
+  }).then(function(car){
+    res.json(car);
+  })
+})
 .post('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
