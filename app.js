@@ -27,7 +27,7 @@ var app = express();
 
 app.use(cors({
  credentials: true,
- origin: 'http://localhost:5000'
+ origin: 'http://157.130.220.250'
  // allowedHeaders: ['Cookie', 'Content-Type']
 }));
 
