@@ -9,6 +9,7 @@ var models = require('../models'),
 router.get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Expense.findOne({
@@ -22,6 +23,7 @@ router.get('/:id', function(req, res, next) {
 .post('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Expense.create({
@@ -37,11 +39,12 @@ router.get('/:id', function(req, res, next) {
 .put('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Expense.findOne({
     where: {
-      id: req.body.expenseId
+      id: +req.body.id
     }
   }).then(function(expense){
     expense.update({
@@ -57,6 +60,7 @@ router.get('/:id', function(req, res, next) {
 .delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Expense.destroy({

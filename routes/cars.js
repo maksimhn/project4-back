@@ -10,6 +10,7 @@ router
 .get('/', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   dataCollector(req.user, res);
@@ -17,6 +18,7 @@ router
 .get('/:id', function(req, res, next){
   if (!req.user){
     var err = new Error("User not logged in");
+    console.log(err);
     return next(err);
   }
   Car.findOne({
@@ -30,6 +32,7 @@ router
 .post('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Car.create({
@@ -47,6 +50,7 @@ router
 .put('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Car.findOne({
@@ -68,6 +72,7 @@ router
 .delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Car.destroy({

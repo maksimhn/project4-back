@@ -11,6 +11,7 @@ var models = require('../models'),
 router.get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Event.findOne({
@@ -24,6 +25,7 @@ router.get('/:id', function(req, res, next) {
 .post('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Event.create({
@@ -41,11 +43,12 @@ router.get('/:id', function(req, res, next) {
 .put('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Event.findOne({
     where: {
-      id: req.body.eventId
+      id: req.body.id
     }
   }).then(function(event){
     event.update({
@@ -63,6 +66,7 @@ router.get('/:id', function(req, res, next) {
 .delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
   Event.destroy({
