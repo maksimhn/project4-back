@@ -65,17 +65,20 @@ router
     }, next);
   });
 })
-.delete('/', function(req, res, next){
+.delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log(err);
     return next(err);
   }
+  console.log('car id is ', req.params.id);
   Car.destroy({
     where: {
-      id: req.body.carId
+      id: req.params.id
     }
   }).then(function(car){
       dataCollector(req.user, res);
+      console.log(car);
     }, next);
 });
 
