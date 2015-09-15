@@ -27,7 +27,8 @@ var app = express();
 
 app.use(cors({
  credentials: true,
- origin: 'http://maksimhn.github.io'
+ origin: '*',
+ allowedMethods: 'POST, GET, PUT, DELETE, OPTIONS'
  // allowedHeaders: ['Cookie', 'Content-Type']
 }));
 
