@@ -27,7 +27,7 @@ var app = express();
 
 app.use(cors({
  credentials: true,
- origin: 'http://localhost:5000'
+ origin: 'http://maksimhn.github.io'
  // allowedHeaders: ['Cookie', 'Content-Type']
 }));
 
@@ -41,7 +41,7 @@ app.use(session({
 	resave : false,
 	saveUninitialized : false,
 	store : new MongoStore({
-		url : "mongodb://localhost/ga-passport-sessions"
+		url : "mongodb://heroku_jcq62blk:9nt7lf54g86haen2ehinc90loa@ds041571.mongolab.com:41571/heroku_jcq62blk"
 	}),
 	cookie : {
 		maxAge : 300000 // 5 minutes
