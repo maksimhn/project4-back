@@ -25,11 +25,11 @@ var app = express();
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'hbs');
 
-app.all('/', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
- });
+// app.all('/', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//   next();
+//  });
 
 // app.use(cors({
 //  credentials: true,
@@ -63,6 +63,13 @@ app.use(session({
 app.use(passport.initialize());
 // mount return value of `passport.session` invocation on `app`
 app.use(passport.session());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 app.use('/', routes);
 app.use('/users', users);
