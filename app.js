@@ -27,8 +27,8 @@ var app = express();
 
 app.use(cors({
  credentials: true,
- origin: '*',
- allowedMethods: 'POST, GET, PUT, DELETE, OPTIONS'
+ origin: true
+ // allowedMethods: 'POST, GET, PUT, DELETE, OPTIONS'
  // allowedHeaders: ['Cookie', 'Content-Type']
 }));
 
