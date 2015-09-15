@@ -1,7 +1,7 @@
 'use strict';
 // configure sequelize and import other models
 
-// require('dotenv').load();
+require('dotenv').load();
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize("d45eg72u0osanv",
 	"ohjdmwgvurtwws",
