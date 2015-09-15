@@ -50,7 +50,7 @@ var app = express();
 //  });
 
 // app.use(cors({
-//  credentials: false,
+//  credentials: true,
 //  origin: true
  // allowedMethods: 'POST, GET, PUT, DELETE, OPTIONS'
  // allowedHeaders: ['Cookie', 'Content-Type']
@@ -83,7 +83,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://maksimhn.github.io/project4-front/#/");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
