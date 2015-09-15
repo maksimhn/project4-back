@@ -50,7 +50,7 @@ var app = express();
 //  });
 
 // app.use(cors({
-//  credentials: true,
+//  credentials: false,
 //  origin: true
  // allowedMethods: 'POST, GET, PUT, DELETE, OPTIONS'
  // allowedHeaders: ['Cookie', 'Content-Type']
