@@ -20,10 +20,10 @@ if (process.env.DATABASE_URL) {
    dialect:  'postgres',
    protocol: 'postgres',
    port:     match[4],
-   host:     match[3],
-   dialectOptions: {
-        ssl: true
-    }
+   host:     match[3]
+   // dialectOptions: {
+   //      ssl: true
+   //  }
  });
 
 } else {
@@ -35,10 +35,10 @@ if (process.env.DATABASE_URL) {
      host: process.env.SQL_HOST,
      port: process.env.SQL_PORT,
      dialect: 'postgres',
-     protocol: 'postgres',
-     dialectOptions: {
-        ssl: true
-    }
+     protocol: 'postgres'
+    //  dialectOptions: {
+    //     ssl: true
+    // }
    }
  );
 };
@@ -65,4 +65,3 @@ models.Expense.belongsTo(models.Car, {foreignkey: 'carId'});
 models.Car.hasMany(models.Expense, {foreignkey: 'carId', onDelete: 'cascade', hooks: true});
 
 module.exports = models;
-

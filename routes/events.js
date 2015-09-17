@@ -31,10 +31,10 @@ router.get('/:id', function(req, res, next) {
   Event.create({
     CarId: +req.body.carId,
     eventName: req.body.eventName,
-    remindOnMileage: req.body.remindOnMileage,
-    remindEvery: req.body.remindEvery,
-    nextReminder: req.body.nextReminder,
-    reminderSent: req.body.reminderSent,
+    remindOnMileage: req.body.remindOnMileage || null,
+    remindEvery: req.body.remindEvery || null,
+    nextReminder: req.body.nextReminder || null,
+    reminderSent: req.body.reminderSent || false,
     done: req.body.done
   }).then(function(event){
       dataCollector(req.user, res);

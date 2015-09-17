@@ -38,7 +38,8 @@ app.use(session({
 	resave : false,
 	saveUninitialized : false,
 	store : new MongoStore({
-		url : "mongodb://heroku_jcq62blk:9nt7lf54g86haen2ehinc90loa@ds041571.mongolab.com:41571/heroku_jcq62blk"
+		url : "mongodb://localhost/ga-passport-sessions"
+		// url : "mongodb://heroku_jcq62blk:9nt7lf54g86haen2ehinc90loa@ds041571.mongolab.com:41571/heroku_jcq62blk"
 	}),
 	cookie : {
 		maxAge : 300000 // 5 minutes
@@ -55,7 +56,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://maksimhn.github.io");
+  // res.header("Access-Control-Allow-Origin", "http://maksimhn.github.io");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS'")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

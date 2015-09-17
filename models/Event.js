@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     nextReminder: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     reminderSent: {
       type: DataTypes.BOOLEAN,
