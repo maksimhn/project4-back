@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var dataCollector = require('../lib/dataCollector');
+var mailer = require('../lib/mailer');
+var emailTemplate = require('../lib/notificationTemplate')
+var schedule = require('node-schedule');
 var models = require('../models'),
   Event = models.Event,
   Car = models.Car;
-
 
 
 /* GET users listing. */
@@ -28,6 +30,11 @@ router.get('/:id', function(req, res, next) {
     console.log(err);
     return next(err);
   }
+
+  // console.log('notificationTemplate is ', notificationTemplate.strVar);
+  mailer.optionsEditor(emailTemplate("dear user!", req.body.eventName, req.body.remindEvery), req.user.localName, 'Car Expense Tracker notification');
+  mailer.transporter.sendMail(mailer.mailOptions, mailer.sendCallback);
+
   Event.create({
     CarId: +req.body.carId,
     eventName: req.body.eventName,
