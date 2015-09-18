@@ -37,11 +37,9 @@ router.get('/:id', function(req, res, next) {
           id: +req.body.carId
       }
   }).then(function(car){
-      console.log(car);
-      notificationScheduler(req.body.nextReminder, req.body.eventName, req.body.remindEvery, req.user.localName)
+      console.log(car.dataValues);
+      notificationScheduler(req.body.nextReminder, req.body.eventName, req.body.remindEvery, req.user.localName, car.dataValues.customName);
   });
-  // mailer.optionsEditor(emailTemplate("dear user!", req.body.eventName, req.body.remindEvery), req.user.localName, 'Car Expense Tracker notification');
-  // mailer.transporter.sendMail(mailer.mailOptions, mailer.sendCallback);
 
   Event.create({
     CarId: +req.body.carId,
