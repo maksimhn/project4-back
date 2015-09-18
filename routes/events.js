@@ -32,14 +32,14 @@ router.get('/:id', function(req, res, next) {
     return next(err);
   }
 
-  Car.findOne({
-      where: {
-          id: +req.body.carId
-      }
-  }).then(function(car){
-      console.log(car.dataValues);
-      notificationScheduler(req.body.nextReminder, req.body.eventName, req.body.remindEvery, req.user.localName, car.dataValues.customName);
-  });
+  // Car.findOne({
+  //     where: {
+  //         id: +req.body.carId
+  //     }
+  // }).then(function(car){
+  //     console.log(car.dataValues);
+  //
+  // });
 
   Event.create({
     CarId: +req.body.carId,
@@ -51,6 +51,7 @@ router.get('/:id', function(req, res, next) {
     done: req.body.done
   }).then(function(event){
       dataCollector(req.user, res);
+      notificationScheduler.newSchedule(req.body.nextReminder, req.body.eventName, req.body.remindEvery, event.id, req.user.localName, req.body.carName);
   }, next);
   })
 .put('/', function(req, res, next){
@@ -73,6 +74,10 @@ router.get('/:id', function(req, res, next) {
       done: req.body.done
     }).then(function(event){
       dataCollector(req.user, res);
+      notificationScheduler.deleteSchedule(req.body.id);
+      if (event.remindEvery) {
+          notificationScheduler.newSchedule(event.nextReminder, event.eventName, event.remindEvery, event.id, req.user.localName, req.body.carName);
+      }
     }, next);
   });
 })
@@ -82,6 +87,7 @@ router.get('/:id', function(req, res, next) {
     console.log(err);
     return next(err);
   }
+  notificationScheduler.deleteSchedule(req.params.id);
   Event.destroy({
     where: {
       id: req.params.id
