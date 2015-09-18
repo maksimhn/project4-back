@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var dataCollector = require('../lib/dataCollector');
-var mailer = require('../lib/mailer');
-var emailTemplate = require('../lib/notificationTemplate')
-var schedule = require('node-schedule');
+// var mailer = require('../lib/mailer');
+// var emailTemplate = require('../lib/notificationTemplate')
+// var schedule = require('node-schedule');
+var notificationScheduler = require('../lib/notificationScheduler');
 var models = require('../models'),
   Event = models.Event,
   Car = models.Car;
@@ -31,9 +32,16 @@ router.get('/:id', function(req, res, next) {
     return next(err);
   }
 
-  // console.log('notificationTemplate is ', notificationTemplate.strVar);
-  mailer.optionsEditor(emailTemplate("dear user!", req.body.eventName, req.body.remindEvery), req.user.localName, 'Car Expense Tracker notification');
-  mailer.transporter.sendMail(mailer.mailOptions, mailer.sendCallback);
+  Car.findOne({
+      where: {
+          id: +req.body.carId
+      }
+  }).then(function(car){
+      console.log(car);
+      notificationScheduler(req.body.nextReminder, req.body.eventName, req.body.remindEvery, req.user.localName)
+  });
+  // mailer.optionsEditor(emailTemplate("dear user!", req.body.eventName, req.body.remindEvery), req.user.localName, 'Car Expense Tracker notification');
+  // mailer.transporter.sendMail(mailer.mailOptions, mailer.sendCallback);
 
   Event.create({
     CarId: +req.body.carId,
@@ -45,7 +53,7 @@ router.get('/:id', function(req, res, next) {
     done: req.body.done
   }).then(function(event){
       dataCollector(req.user, res);
-     }, next)
+  }, next);
   })
 .put('/', function(req, res, next){
   if(!req.user){
