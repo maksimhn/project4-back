@@ -22,7 +22,11 @@ module.exports = function (sequelize, DataTypes) {
     gas: {
       type: DataTypes.BOOLEAN,
       allowNull: false
-    }
+      },
+      date: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
   }, {
   timestamps: true,
   classMethods: {

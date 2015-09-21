@@ -31,7 +31,8 @@ router.get('/:id', function(req, res, next) {
     expenseName: req.body.expenseName,
     mileage: +req.body.mileage,
     amountSpent: +req.body.amountSpent,
-    gas: req.body.gas
+    gas: req.body.gas,
+    date: req.body.date
   }).then(function(expense){
     dataCollector(req.user, res);
   }, next);
@@ -51,7 +52,8 @@ router.get('/:id', function(req, res, next) {
       expenseName: req.body.expenseName,
       mileage: +req.body.mileage,
       amountSpent: +req.body.amountSpent,
-      gas: req.body.gas
+      gas: req.body.gas,
+      date: req.body.date
     }).then(function(result){
       dataCollector(req.user, res);
     }, next);

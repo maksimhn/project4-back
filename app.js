@@ -24,12 +24,8 @@ var app = express();
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'hbs');
-
-app.use(cors({
- credentials: true,
- origin: 'http://157.130.220.250'
  // allowedHeaders: ['Cookie', 'Content-Type']
-}));
+// }));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -42,6 +38,7 @@ app.use(session({
 	saveUninitialized : false,
 	store : new MongoStore({
 		url : "mongodb://localhost/ga-passport-sessions"
+		// url : "mongodb://heroku_jcq62blk:9nt7lf54g86haen2ehinc90loa@ds041571.mongolab.com:41571/heroku_jcq62blk"
 	}),
 	cookie : {
 		maxAge : 300000 // 5 minutes
@@ -56,6 +53,16 @@ app.use(session({
 app.use(passport.initialize());
 // mount return value of `passport.session` invocation on `app`
 app.use(passport.session());
+
+app.use(function(req, res, next) {
+  // res.header("Access-Control-Allow-Origin", "http://maksimhn.github.io");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS'")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 app.use('/', routes);
 app.use('/users', users);
