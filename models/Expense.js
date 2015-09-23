@@ -26,7 +26,11 @@ module.exports = function (sequelize, DataTypes) {
       date: {
         type: DataTypes.STRING,
         allowNull: false
-      }
+    },
+    dateInMilliseconds: {
+        type: DataTypes.BIGINT,
+        allowNull: true
+    }
   }, {
   timestamps: true,
   classMethods: {

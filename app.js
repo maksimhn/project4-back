@@ -21,6 +21,7 @@ var cors = require('cors');
 
 var app = express();
 
+
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'hbs');
@@ -57,9 +58,10 @@ app.use(passport.session());
 app.use(function(req, res, next) {
   // res.header("Access-Control-Allow-Origin", "http://maksimhn.github.io");
   res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS'")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
   next();
 });
 
@@ -79,12 +81,12 @@ app.use(function(req, res, next) {
 
 // error handlers
 
-// development error handler
+// development error han	dler
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.status(err.status || 500);
+    // res.status(err.status || 500);
+    // res.status(err.status || 500);
     res.json(err.message);
   });
 }
@@ -92,7 +94,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
+  // res.status(err.status || 500);
   res.json(err.message);
 });
 

@@ -22,7 +22,7 @@ router.route('/login').
 		res.sendStatus(405);
 	}).
 	post(passport.authenticate('local'), function(req, res){
-		dataCollector(req.user, res);
+		dataCollector(req.user, res, 0);
 	});
 
 router.route('/signup').

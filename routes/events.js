@@ -50,7 +50,7 @@ router.get('/:id', function(req, res, next) {
     reminderSent: req.body.reminderSent || false,
     done: req.body.done
   }).then(function(event){
-      dataCollector(req.user, res);
+      dataCollector(req.user, res, req.body.statsPeriod);
       notificationScheduler.newSchedule(req.body.nextReminder, req.body.eventName, req.body.remindEvery, event.id, req.user.localName, req.body.carName);
   }, next);
   })
@@ -73,7 +73,7 @@ router.get('/:id', function(req, res, next) {
       reminderSent: req.body.reminderSent,
       done: req.body.done
     }).then(function(event){
-      dataCollector(req.user, res);
+      dataCollector(req.user, res, req.body.statsPeriod);
       notificationScheduler.deleteSchedule(req.body.id);
       if (event.remindEvery) {
           notificationScheduler.newSchedule(event.nextReminder, event.eventName, event.remindEvery, event.id, req.user.localName, req.body.carName);
@@ -93,7 +93,7 @@ router.get('/:id', function(req, res, next) {
       id: req.params.id
     }
   }).then(function(event){
-    dataCollector(req.user, res);
+    dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 });
 

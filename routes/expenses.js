@@ -26,20 +26,22 @@ router.get('/:id', function(req, res, next) {
     console.log(err);
     return next(err);
   }
+  console.log('we are in expense creation route, statsPeriod is ', req.body.statsPeriod);
   Expense.create({
     CarId: +req.body.carId,
     expenseName: req.body.expenseName,
     mileage: +req.body.mileage,
     amountSpent: +req.body.amountSpent,
     gas: req.body.gas,
-    date: req.body.date
+    date: req.body.date,
+    dateInMilliseconds: req.body.dateInMilliseconds
   }).then(function(expense){
-    dataCollector(req.user, res);
-  }, next);
+      console.log('expense created is ', expense);
+    dataCollector(req.user, res, req.body.statsPeriod);
+}, next);
 })
 .put('/', function(req, res, next){
   if(!req.user){
-    var err = new Error("User not logged in.");
     console.log(err);
     return next(err);
   }
@@ -53,9 +55,10 @@ router.get('/:id', function(req, res, next) {
       mileage: +req.body.mileage,
       amountSpent: +req.body.amountSpent,
       gas: req.body.gas,
-      date: req.body.date
+      date: req.body.date,
+      dateInMilliseconds: +req.body.dateInMilliseconds
     }).then(function(result){
-      dataCollector(req.user, res);
+      dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });
 })
@@ -70,7 +73,7 @@ router.get('/:id', function(req, res, next) {
       id: req.params.id
     }
   }).then(function(expense){
-      dataCollector(req.user, res);
+      dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 });
 

@@ -7,13 +7,14 @@ var models = require('../models'),
 
 /* GET users listing. */
 router
-.get('/', function(req, res, next) {
+.get('/:id/:period', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
     console.log(err);
     return next(err);
   }
-  dataCollector(req.user, res);
+  console.log('we are in get cars route, req.body is ', req.params.period);
+  dataCollector(req.user, res, req.params.period);
 })
 .get('/:id', function(req, res, next){
   if (!req.user){
@@ -44,7 +45,8 @@ router
     color: req.body.color,
     mileage: +req.body.mileage
   }).then(function(car){
-    dataCollector(req.user, res);
+    console.log(err);
+    dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 })
 .put('/', function(req, res, next){
@@ -65,7 +67,7 @@ router
       year: req.body.year,
       color: req.body.color
     }).then(function(result){
-      dataCollector(req.user, res);
+      dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });
 })
@@ -80,7 +82,7 @@ router
       id: req.params.id
     }
   }).then(function(car){
-      dataCollector(req.user, res);
+      dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
 });
 
