@@ -50,8 +50,11 @@ router.get('/:id', function(req, res, next) {
     reminderSent: req.body.reminderSent || false,
     done: req.body.done
   }).then(function(event){
+      console.log('event created is ', event.dataValues);
+      if (event.dataValues.remindEvery && event.dataValues.eventDate) {
+          notificationScheduler.newSchedule(event.dataValues.nextReminder, event.dataValues.eventName, event.dataValues.remindEvery, event.dataValues.id, req.user.localName, req.body.carName);
+      }
       dataCollector(req.user, res, req.body.statsPeriod);
-      notificationScheduler.newSchedule(req.body.nextReminder, req.body.eventName, req.body.remindEvery, event.id, req.user.localName, req.body.carName);
   }, next);
   })
 .put('/', function(req, res, next){
@@ -73,11 +76,17 @@ router.get('/:id', function(req, res, next) {
       reminderSent: req.body.reminderSent,
       done: req.body.done
     }).then(function(event){
-      dataCollector(req.user, res, req.body.statsPeriod);
-      notificationScheduler.deleteSchedule(req.body.id);
-      if (event.remindEvery) {
-          notificationScheduler.newSchedule(event.nextReminder, event.eventName, event.remindEvery, event.id, req.user.localName, req.body.carName);
+        console.log('uodated event is ', event.dataValues)
+        notificationScheduler.newSchedule(event.dataValues.nextReminder, event.dataValues.eventName, event.dataValues.remindEvery, event.dataValues.id, req.user.localName, req.body.carName);
+      if (event.dataValues.remindEvery == "0") {
+          notificationScheduler.deleteSchedule(event.dataValues.id);
       }
+
+    //   if (event.dataValues.remindEvery && event.dataValues.eventDate) {
+    //       notificationScheduler.deleteSchedule(event.dataValues.id);
+      //
+    //   }
+      dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });
 })
@@ -87,12 +96,13 @@ router.get('/:id', function(req, res, next) {
     console.log(err);
     return next(err);
   }
-  notificationScheduler.deleteSchedule(req.params.id);
+      notificationScheduler.deleteSchedule(req.params.id);
   Event.destroy({
     where: {
       id: req.params.id
     }
   }).then(function(event){
+
     dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 });

@@ -36,7 +36,7 @@ router.get('/:id', function(req, res, next) {
     date: req.body.date,
     dateInMilliseconds: req.body.dateInMilliseconds
   }).then(function(expense){
-      console.log('expense created is ', expense);
+    //   console.log('expense created is ', expense);
     dataCollector(req.user, res, req.body.statsPeriod);
 }, next);
 })
