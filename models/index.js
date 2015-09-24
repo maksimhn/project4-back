@@ -20,7 +20,7 @@ if (process.env.DATABASE_URL) {
    dialect:  'postgres',
    protocol: 'postgres',
    port:     match[4],
-   host:     match[3]
+   host:     match[3],
    dialectOptions: {
         ssl: true
     }
@@ -35,7 +35,7 @@ if (process.env.DATABASE_URL) {
      host: process.env.SQL_HOST,
      port: process.env.SQL_PORT,
      dialect: 'postgres',
-     protocol: 'postgres'
+     protocol: 'postgres',
      dialectOptions: {
         ssl: true
     }
