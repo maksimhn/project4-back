@@ -52,7 +52,6 @@ router.route('/signup').
 			}
 		], function(err, result) {
 			if(err) {
-				// students will make error handler
 				return next(err);
 			}
 

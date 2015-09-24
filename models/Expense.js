@@ -34,10 +34,8 @@ module.exports = function (sequelize, DataTypes) {
   }, {
   timestamps: true,
   classMethods: {
-      // dostuff
   },
   instanceMethods: {
-    // fine... boring comment.
   }
 });
 

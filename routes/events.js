@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var dataCollector = require('../lib/dataCollector');
-// var mailer = require('../lib/mailer');
-// var emailTemplate = require('../lib/notificationTemplate')
-// var schedule = require('node-schedule');
 var notificationScheduler = require('../lib/notificationScheduler');
 var models = require('../models'),
   Event = models.Event,
@@ -31,15 +28,6 @@ router.get('/:id', function(req, res, next) {
     console.log(err);
     return next(err);
   }
-
-  // Car.findOne({
-  //     where: {
-  //         id: +req.body.carId
-  //     }
-  // }).then(function(car){
-  //     console.log(car.dataValues);
-  //
-  // });
 
   Event.create({
     CarId: +req.body.carId,
@@ -82,10 +70,6 @@ router.get('/:id', function(req, res, next) {
           notificationScheduler.deleteSchedule(event.dataValues.id);
       }
 
-    //   if (event.dataValues.remindEvery && event.dataValues.eventDate) {
-    //       notificationScheduler.deleteSchedule(event.dataValues.id);
-      //
-    //   }
       dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });

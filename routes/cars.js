@@ -12,18 +12,7 @@ router
     var err = new Error("User not logged in.");
     return next(err);
   }
-
-  // if (+req.params.id != 0) {
-  //   Car.findOne({
-  //       where: {
-  //         id: +req.params.id
-  //       }
-  //     }).then(function(car){
-  //       res.json(car);
-  //   });
-  // } else {
     dataCollector(req.user, res, req.params.period);
-  // }
 })
 
 .post('/', function(req, res, next){
