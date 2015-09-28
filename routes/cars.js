@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var dataCollector = require('../lib/dataCollector');
+var remindOnMilesScheduler = require('../lib/remindOnMilesScheduler');
 var models = require('../models'),
   User = models.User,
   Car = models.Car;
@@ -50,8 +51,10 @@ router
       make: req.body.make,
       model: req.body.model,
       year: req.body.year,
-      color: req.body.color
-    }).then(function(result){
+      color: req.body.color,
+      mileage: req.body.mileage
+  }).then(function(car){
+      remindOnMilesScheduler.findEvents(car.id, req.user.localName);
       dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var dataCollector = require('../lib/dataCollector');
+var remindOnMilesScheduler = require('../lib/remindOnMilesScheduler');
 var models = require('../models'),
   Expense = models.Expense,
   Car = models.Car;
@@ -36,9 +37,21 @@ router.get('/:id', function(req, res, next) {
     date: req.body.date,
     dateInMilliseconds: req.body.dateInMilliseconds
   }).then(function(expense){
-    dataCollector(req.user, res, req.body.statsPeriod);
-}, next);
-})
+        Car.findOne({
+            where: {
+                id: expense.CarId
+            }
+        }).then(function(car){
+            console.log('car inside expense creation is ', car);
+            car.update({
+                mileage: expense.mileage
+            }).then(function(car){
+                remindOnMilesScheduler.findEvents(car.id, req.user.localName);
+            });
+        });
+        dataCollector(req.user, res, req.body.statsPeriod);
+    }, next);
+  })
 .put('/', function(req, res, next){
   if(!req.user){
     console.log(err);
@@ -56,7 +69,19 @@ router.get('/:id', function(req, res, next) {
       gas: req.body.gas,
       date: req.body.date,
       dateInMilliseconds: +req.body.dateInMilliseconds
-    }).then(function(result){
+  }).then(function(expense){
+      Car.findOne({
+          where: {
+              id: expense.CarId
+          }
+      }).then(function(car){
+          console.log('Expense update, car found, about to update ', car);
+          car.update({
+              mileage: expense.mileage
+          }).then(function(car){
+              remindOnMilesScheduler.findEvents(car.id, req.user.localName);
+          });
+      });
       dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });

@@ -10,7 +10,7 @@ var dataCollector = require('../lib/dataCollector');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	dataCollector(req.user, res);
+	dataCollector(req.user, res, 0);
 });
 
 /**AUTH ROUTES
