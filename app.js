@@ -33,7 +33,7 @@ app.use(session({
 		// url : "mongodb://heroku_jcq62blk:9nt7lf54g86haen2ehinc90loa@ds041571.mongolab.com:41571/heroku_jcq62blk"
 	}),
 	cookie : {
-		maxAge : 300000 // 5 minutes
+		maxAge : 1500000 // 5 minutes
 	},
 	genid : function(req) {
 		return uuid.v4({

@@ -40,8 +40,9 @@ router.get('/:id', function(req, res, next) {
     done: req.body.done
   }).then(function(event){
       console.log('event created is ', event.dataValues);
+      console.log('car name passed is ', req.body.carName);
       remindOnMilesScheduler.findEvents(event.dataValues.CarId, req.user.localName);
-      if (event.dataValues.remindEvery && event.dataValues.eventDate) {
+      if (event.dataValues.remindEvery && event.dataValues.nextReminder) {
           notificationScheduler.newSchedule(event.dataValues.nextReminder, event.dataValues.eventName, event.dataValues.remindEvery, event.dataValues.id, req.user.localName, req.body.carName);
       }
       dataCollector(req.user, res, req.body.statsPeriod);
