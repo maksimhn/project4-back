@@ -9,7 +9,26 @@ var models = require('../models'),
 
 
 /* GET users listing. */
-router.get('/:id', function(req, res, next) {
+router
+.get('/', function(req, res, next){
+    var carIds = req.body.carIds;
+    var events = [];
+    var carsCount = 0;
+    carIds.forEach(function(carId){
+        Event.findAll({
+            where: {
+                carId: carId
+            }
+        }).then(function(carEvents){
+            events = events.concat(carEvents);
+            carsCount++;
+            if (carsCount === carIds.length) {
+                res.json(events);
+            }
+        }, next);
+    });
+})
+.get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
     console.log(err);
@@ -23,15 +42,23 @@ router.get('/:id', function(req, res, next) {
     res.json(event);
   });
 })
+.get('/:carid/:interval', function(req, res, next){
+    Event.findAll({
+        where: {
+            carId: +req.params.carid
+        }
+    }).then(function(events){
+        res.json(events);
+    }, next);
+})
 .post('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
     console.log(err);
     return next(err);
   }
-
   Event.create({
-    CarId: +req.body.carId,
+    carId: +req.body.carId,
     eventName: req.body.eventName,
     remindOnMileage: req.body.remindOnMileage || null,
     remindEvery: req.body.remindEvery || null,
@@ -39,16 +66,18 @@ router.get('/:id', function(req, res, next) {
     reminderSent: req.body.reminderSent || false,
     done: req.body.done
   }).then(function(event){
-      console.log('event created is ', event.dataValues);
+      var newEvent = event.dataValues;
+      console.log('event created is ', newEvent);
       console.log('car name passed is ', req.body.carName);
-      remindOnMilesScheduler.findEvents(event.dataValues.CarId, req.user.localName);
-      if (event.dataValues.remindEvery && event.dataValues.nextReminder) {
-          notificationScheduler.newSchedule(event.dataValues.nextReminder, event.dataValues.eventName, event.dataValues.remindEvery, event.dataValues.id, req.user.localName, req.body.carName);
+      remindOnMilesScheduler.findEvents(newEvent.CarId, req.user.localName);
+      if (newEvent.remindEvery && newEvent.nextReminder) {
+          notificationScheduler.newSchedule(newEvent.nextReminder, newEvent.eventName, newEvent.remindEvery, newEvent.id, req.user.localName, req.body.carName);
       }
-      dataCollector(req.user, res, req.body.statsPeriod);
+      res.status(200);
+    //   dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
   })
-.put('/', function(req, res, next){
+.put('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
     console.log(err);
@@ -56,7 +85,7 @@ router.get('/:id', function(req, res, next) {
   }
   Event.findOne({
     where: {
-      id: req.body.id
+      id: +req.params.id
     }
   }).then(function(event){
     event.update({
@@ -74,7 +103,8 @@ router.get('/:id', function(req, res, next) {
       if (event.dataValues.remindEvery == "0") {
           notificationScheduler.deleteSchedule(event.dataValues.id);
       }
-      dataCollector(req.user, res, req.body.statsPeriod);
+      res.status(200);
+    //   dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });
 })
@@ -87,11 +117,11 @@ router.get('/:id', function(req, res, next) {
       notificationScheduler.deleteSchedule(req.params.id);
   Event.destroy({
     where: {
-      id: req.params.id
+      id: +req.params.id
     }
   }).then(function(event){
-
-    dataCollector(req.user, res, req.body.statsPeriod);
+    res.status(200);
+    // dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 });
 

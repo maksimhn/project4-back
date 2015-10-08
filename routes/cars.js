@@ -8,12 +8,33 @@ var models = require('../models'),
 
 /* GET users listing. */
 router
-.get('/:id/:period', function(req, res, next) {
+.get('/', function(req, res, next){
+    if(!req.user){
+      var err = new Error("User not logged in.");
+      return next(err);
+    }
+    Car.findAll({
+        where: {
+            userId: req.user.id
+        }
+    }).then(function(cars){
+        res.json(cars);
+    }, next);
+})
+
+.get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
     return next(err);
   }
-    dataCollector(req.user, res, req.params.period);
+  Car.findOne({
+      where: {
+          id: +req.params.id
+      }
+  }).then(function(car){
+      res.json(car);
+  }, next);
+    // dataCollector(req.user, res, req.params.period);
 })
 
 .post('/', function(req, res, next){
@@ -23,7 +44,7 @@ router
     return next(err);
   }
   Car.create({
-    UserId: +req.user.id,
+    userId: +req.user.id,
     customName: req.body.customName,
     make: req.body.make,
     model: req.body.model,
@@ -31,11 +52,11 @@ router
     color: req.body.color,
     mileage: +req.body.mileage
   }).then(function(car){
-    console.log(err);
-    dataCollector(req.user, res, req.body.statsPeriod);
+      res.status(200);
+    // dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 })
-.put('/', function(req, res, next){
+.put('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
     console.log(err);
@@ -43,7 +64,7 @@ router
   }
   Car.findOne({
     where: {
-      id: req.body.carId
+      id: +req.params.id
     }
   }).then(function(car){
     car.update({
@@ -55,7 +76,8 @@ router
       mileage: req.body.mileage
   }).then(function(car){
       remindOnMilesScheduler.findEvents(car.id, req.user.localName);
-      dataCollector(req.user, res, req.body.statsPeriod);
+      res.status(200);
+    //   dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });
 })
@@ -67,10 +89,11 @@ router
   }
   Car.destroy({
     where: {
-      id: req.params.id
+      id: +req.params.id
     }
   }).then(function(car){
-      dataCollector(req.user, res, req.body.statsPeriod);
+      res.status(200);
+    //   dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
 });
 

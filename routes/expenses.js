@@ -1,35 +1,28 @@
 var express = require('express');
 var router = express.Router();
-var dataCollector = require('../lib/dataCollector');
+var expensesCollector = require('../lib/expensesCollector');
 var remindOnMilesScheduler = require('../lib/remindOnMilesScheduler');
 var models = require('../models'),
   Expense = models.Expense,
   Car = models.Car;
 
 /* GET users listing. */
-router.get('/:id', function(req, res, next) {
+router
+.get('/:id/:interval', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
-    console.log(err);
     return next(err);
   }
-  Expense.findOne({
-    where: {
-      id: +req.params.id
-    }
-  }).then(function(expense){
-    res.json(expense);
-  });
+  expensesCollector(user, res, +req.params.id, +req.params.interval);
 })
 .post('/', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
-    console.log(err);
     return next(err);
   }
   console.log('we are in expense creation route, statsPeriod is ', req.body.statsPeriod);
   Expense.create({
-    CarId: +req.body.carId,
+    carId: +req.body.carId,
     expenseName: req.body.expenseName,
     mileage: +req.body.mileage,
     amountSpent: +req.body.amountSpent,
@@ -49,12 +42,11 @@ router.get('/:id', function(req, res, next) {
                 remindOnMilesScheduler.findEvents(car.id, req.user.localName);
             });
         });
-        dataCollector(req.user, res, req.body.statsPeriod);
+        // dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   })
 .put('/', function(req, res, next){
   if(!req.user){
-    console.log(err);
     return next(err);
   }
   Expense.findOne({
@@ -72,7 +64,7 @@ router.get('/:id', function(req, res, next) {
   }).then(function(expense){
       Car.findOne({
           where: {
-              id: expense.CarId
+              id: expense.carId
           }
       }).then(function(car){
           console.log('Expense update, car found, about to update ', car);
@@ -82,14 +74,13 @@ router.get('/:id', function(req, res, next) {
               remindOnMilesScheduler.findEvents(car.id, req.user.localName);
           });
       });
-      dataCollector(req.user, res, req.body.statsPeriod);
+    //   dataCollector(req.user, res, req.body.statsPeriod);
     }, next);
   });
 })
 .delete('/:id', function(req, res, next){
   if(!req.user){
     var err = new Error("User not logged in.");
-    console.log(err);
     return next(err);
   }
   Expense.destroy({
@@ -97,7 +88,7 @@ router.get('/:id', function(req, res, next) {
       id: req.params.id
     }
   }).then(function(expense){
-      dataCollector(req.user, res, req.body.statsPeriod);
+    //   dataCollector(req.user, res, req.body.statsPeriod);
   }, next);
 });
 
