@@ -11,9 +11,10 @@ router
 .get('/:id/:interval', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
+    console.log('error is ', err);
     return next(err);
   }
-  expensesCollector(user, res, +req.params.id, +req.params.interval);
+  expensesCollector(req.user, res, +req.params.id, +req.params.interval);
 })
 .post('/', function(req, res, next){
   if(!req.user){
@@ -22,7 +23,7 @@ router
   }
   console.log('we are in expense creation route, statsPeriod is ', req.body.statsPeriod);
   Expense.create({
-    carId: +req.body.carId,
+    CarId: +req.body.carId,
     expenseName: req.body.expenseName,
     mileage: +req.body.mileage,
     amountSpent: +req.body.amountSpent,

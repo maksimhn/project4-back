@@ -11,13 +11,18 @@ var models = require('../models'),
 /* GET users listing. */
 router
 .get('/', function(req, res, next){
+    if(!req.user){
+      var err = new Error("User not logged in.");
+      console.log('error is ', err);
+      return next(err);
+    }
     var carIds = req.body.carIds;
     var events = [];
     var carsCount = 0;
     carIds.forEach(function(carId){
         Event.findAll({
             where: {
-                carId: carId
+                CarId: carId
             }
         }).then(function(carEvents){
             events = events.concat(carEvents);
@@ -31,7 +36,7 @@ router
 .get('/:id', function(req, res, next) {
   if(!req.user){
     var err = new Error("User not logged in.");
-    console.log(err);
+    console.log('error is ', err);
     return next(err);
   }
   Event.findOne({
@@ -45,7 +50,7 @@ router
 .get('/:carid/:interval', function(req, res, next){
     Event.findAll({
         where: {
-            carId: +req.params.carid
+            CarId: +req.params.carid
         }
     }).then(function(events){
         res.json(events);
@@ -58,7 +63,7 @@ router
     return next(err);
   }
   Event.create({
-    carId: +req.body.carId,
+    CarId: +req.body.carId,
     eventName: req.body.eventName,
     remindOnMileage: req.body.remindOnMileage || null,
     remindEvery: req.body.remindEvery || null,

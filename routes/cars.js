@@ -11,11 +11,12 @@ router
 .get('/', function(req, res, next){
     if(!req.user){
       var err = new Error("User not logged in.");
+      console.log('error is ', err);
       return next(err);
     }
     Car.findAll({
         where: {
-            userId: req.user.id
+            UserId: req.user.id
         }
     }).then(function(cars){
         res.json(cars);
@@ -44,7 +45,7 @@ router
     return next(err);
   }
   Car.create({
-    userId: +req.user.id,
+    UserId: +req.user.id,
     customName: req.body.customName,
     make: req.body.make,
     model: req.body.model,

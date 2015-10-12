@@ -22,6 +22,7 @@ router.route('/login').
 		res.sendStatus(405);
 	}).
 	post(passport.authenticate('local'), function(req, res){
+		console.log('username is ', req.user.localName);
 		res.send({username: req.user.localName});
 		// dataCollector(req.user, res, 0);
 	});
