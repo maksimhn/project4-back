@@ -30,7 +30,7 @@ app.use(session({
 	saveUninitialized : false,
 	store : new MongoStore({
 		url : "mongodb://localhost/ga-passport-sessions"
-		// url : "mongodb://heroku_jcq62blk:9nt7lf54g86haen2ehinc90loa@ds041571.mongolab.com:41571/heroku_jcq62blk"
+		// url : process.env.MONGO_DB
 	}),
 	cookie : {
 		maxAge : 1500000 // 5 minutes

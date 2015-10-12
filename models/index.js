@@ -3,14 +3,6 @@
 
 require('dotenv').load();
 var Sequelize = require('sequelize');
-// var sequelize = new Sequelize("d45eg72u0osanv",
-// 	"ohjdmwgvurtwws",
-// 	"7cmDxuqyYlIFK8M4JboKu0W5j4", {
-// 		dialect : 'postgres',
-// 		unixSocket : "/var/run/postgresl/.s.PGSQL.5432",
-// 		hostname : "ec2-54-163-238-96.compute-1.amazonaws.com",
-// 		port : 5432
-// 	});
 
 
 if (process.env.DATABASE_URL) {
