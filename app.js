@@ -33,7 +33,7 @@ app.use(session({
 		// url : process.env.MONGO_DB
 	}),
 	cookie : {
-		maxAge : 1500000 // 5 minutes
+		maxAge : 1500000 // 25 minutes
 	},
 	genid : function(req) {
 		return uuid.v4({

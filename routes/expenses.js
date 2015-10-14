@@ -14,7 +14,7 @@ router
     console.log('error is ', err);
     return next(err);
   }
-  expensesCollector(req.user, res, +req.params.id, +req.params.interval);
+  res.json(expensesCollector(req.user, +req.params.id, +req.params.interval));
 })
 .post('/', function(req, res, next){
   if(!req.user){

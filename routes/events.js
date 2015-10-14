@@ -16,21 +16,26 @@ router
       console.log('error is ', err);
       return next(err);
     }
-    var carIds = req.body.carIds;
-    var events = [];
     var carsCount = 0;
-    carIds.forEach(function(carId){
-        Event.findAll({
-            where: {
-                CarId: carId
-            }
-        }).then(function(carEvents){
-            events = events.concat(carEvents);
-            carsCount++;
-            if (carsCount === carIds.length) {
-                res.json(events);
-            }
-        }, next);
+    var eventsFound = [];
+    Car.findAll({
+        where: {
+            UserId: req.user.id
+        }
+    }).then(function(cars){
+        cars.forEach(function(car){
+            Event.findAll({
+                where: {
+                    CarId: car.dataValues.id
+                }
+            }).then(function(events){
+                eventsFound = eventsFound.concat(events);
+                carsCount++;
+                if (carsCount === cars.length) {
+                    res.json(eventsFound);
+                }
+            });
+        });
     });
 })
 .get('/:id', function(req, res, next) {
